@@ -1,0 +1,20 @@
+{
+  "name": "lottery-results",
+  "private": true,
+  "version": "0.0.0",
+  "description": "",
+  "author": "John Dunning",
+  "keywords": [],
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "vite src",
+    "build": "vite build src --outDir=../dist",
+    "preview": "vite preview src --outDir=../dist"
+  },
+  "dependencies": {
+    "xlsx": "file:vendor/xlsx-0.20.1.tgz"
+  },
+  "devDependencies": {
+    "vite": "^5.0.12"
+  }
+}

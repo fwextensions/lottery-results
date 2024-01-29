@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Lottery Results</title>
+	<script type="module" src="index.js"></script>
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: sans-serif;
+			padding: 0;
+			margin: 0;
+		}
+
+		#drop-target {
+			width: 100vw;
+			height: 100vh;
+			margin: 0;
+			padding: 1rem;
+		}
+
+		#drop-target div {
+			text-align: center;
+			font-weight: bold;
+			color: #666;
+			width: 100%;
+			height: 100%;
+			border: 3px solid silver;
+			pointer-events: none;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		#drop-target.hover div {
+			border-color: darkblue;
+			background-color: aliceblue;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="drop-target">
+		<div>
+			Drag and drop a results file here
+		</div>
+	</div>
+</body>
+
+</html>
