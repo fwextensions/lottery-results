@@ -1,4 +1,5 @@
-name: Build and Deploy
+name: Build and Deploy to GitHub Pages
+
 on:
   push:
     branches:
@@ -6,22 +7,34 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
-  build-and-deploy:
-    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 🛎️
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install and Build 🔧
+      - name: Install and Build
         run: |
           npm ci
           npm run build
 
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          folder: dist
+          path: "./dist"
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

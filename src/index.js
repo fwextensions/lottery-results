@@ -1,8 +1,6 @@
 import * as XLSX from "xlsx";
 import { processWorkbook } from "./processWorkbook.js";
 
-console.log("new JS!");
-
 document.addEventListener("DOMContentLoaded", () => {
 	const dropTarget = document.getElementById("drop-target");
 
