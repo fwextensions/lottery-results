@@ -6,10 +6,11 @@
   "author": "John Dunning",
   "keywords": [],
   "license": "UNLICENSED",
+  "type": "module",
   "scripts": {
     "dev": "vite src",
-    "build": "vite build src --outDir=../dist --assetsDir=.",
-    "preview": "vite preview src --outDir=../dist --assetsDir=."
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "xlsx": "file:vendor/xlsx-0.20.1.tgz"
