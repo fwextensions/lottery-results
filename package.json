@@ -8,8 +8,8 @@
   "license": "UNLICENSED",
   "scripts": {
     "dev": "vite src",
-    "build": "vite build src --outDir=../dist",
-    "preview": "vite preview src --outDir=../dist"
+    "build": "vite build src --outDir=../dist --assetsDir=.",
+    "preview": "vite preview src --outDir=../dist --assetsDir=."
   },
   "dependencies": {
     "xlsx": "file:vendor/xlsx-0.20.1.tgz"
