@@ -22,7 +22,7 @@ function createList(
 }
 
 function createResults(
-	applicantsByName)
+	applicants)
 {
 	const headerContainer = document.getElementById("list-headers");
 	const listContainer = document.getElementById("list-columns");
@@ -34,27 +34,27 @@ function createResults(
 		headerContainer.appendChild(header);
 	});
 
-	listContainer.appendChild(createList(getRawOrder(applicantsByName)));
+	listContainer.appendChild(createList(getRawOrder(applicants)));
 
 	PreferenceIDs.forEach((pref) => {
-		const lotteryNums = getOrderByPref(applicantsByName, pref);
+		const lotteryNums = getOrderByPref(applicants, pref);
 
 		listContainer.appendChild(createList(lotteryNums));
 	});
 
-	listContainer.appendChild(createList(getNoPref(applicantsByName)));
+	listContainer.appendChild(createList(getNoPref(applicants)));
 }
 
 function processWorkbook(
 	workbook)
 {
 	const sheetName = workbook.SheetNames[0].trim();
-	const applicantsByName = getApplicants(workbook);
-	const output = getWorkbookFromApplicants(applicantsByName);
+	const applicants = getApplicants(workbook);
+	const output = getWorkbookFromApplicants(applicants);
 
 	XLSX.writeFile(output, `${sheetName} - Processed.xlsx`);
 
-	createResults(applicantsByName);
+	createResults(applicants);
 	document.getElementById("address").innerText = sheetName;
 	document.getElementById("results").style.display = "block";
 	document.getElementById("drop-target").style.display = "none";
@@ -72,9 +72,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		const [file] = event.dataTransfer.files;
 		const data = await file.arrayBuffer();
-		const wb = XLSX.read(data);
+		const workbook = XLSX.read(data);
 
-		processWorkbook(wb);
+		processWorkbook(workbook);
 	}
 
 	function handleLeave()

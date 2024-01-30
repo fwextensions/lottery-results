@@ -64,14 +64,13 @@ export function getApplicants(
 		applicant[Preferences[PrefName].id] = HasPref;
 	}
 
-	return applicantsByName;
+	return Object.values(applicantsByName);
 }
 
 export function getWorkbookFromApplicants(
-	applicantsByName)
+	applicants)
 {
-
-	const outputRows = Object.values(applicantsByName).map((applicant) => {
+	const outputRows = applicants.map((applicant) => {
 		const { Rank, LotteryNum, Name } = applicant;
 			// convert the TRUE/FALSE from the spreadsheet to 1 or 0
 		const prefs = PreferenceIDs.map((pref) => Number(applicant[pref]));
@@ -90,24 +89,23 @@ export function getWorkbookFromApplicants(
 }
 
 export function getRawOrder(
-	applicantsByName)
+	applicants)
 {
-	return Object.values(applicantsByName).map(({ LotteryNum }) => LotteryNum);
+	return applicants.map(({ LotteryNum }) => LotteryNum);
 }
 
 export function getOrderByPref(
-	applicantsByName,
+	applicants,
 	pref)
 {
-	return Object.values(applicantsByName)
-		.filter((applicant) => !!applicant[pref])
+	return applicants.filter((applicant) => !!applicant[pref])
 		.map(({ LotteryNum }) => LotteryNum);
 }
 
 export function getNoPref(
-	applicantsByName)
+	applicants)
 {
-	return Object.values(applicantsByName)
-		.filter((applicant) => PreferenceIDs.every((pref) => applicant[pref] == 0))
+		// use == to handle "0" strings as well as numbers
+	return applicants.filter((applicant) => PreferenceIDs.every((pref) => applicant[pref] == 0))
 		.map(({ LotteryNum }) => LotteryNum);
 }
