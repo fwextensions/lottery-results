@@ -16,6 +16,7 @@ const InputColumns = [
 	["PrefRank", "Preference Rank"],
 ];
 const OutputSheet = "Processed";
+const VetPref = "VET";
 
 function getCols(
 	columns,
@@ -62,8 +63,13 @@ export function getApplicants(
 		const { Name, Rank, LotteryNum, PrefName, HasPref } = row;
 		const applicant = applicantsByName[Name]
 			|| (applicantsByName[Name] = { Name, Rank, LotteryNum });
+		const prefID = Preferences[PrefName].id;
 
-		applicant[Preferences[PrefName].id] = HasPref;
+		applicant[prefID] = HasPref;
+
+		if (prefID.startsWith("V-")) {
+			applicant[VetPref] = HasPref;
+		}
 	}
 
 	return Object.values(applicantsByName);

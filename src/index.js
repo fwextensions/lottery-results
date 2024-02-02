@@ -1,6 +1,7 @@
 import * as XLSX from "xlsx";
 import { getApplicants, getNoPref, getOrderByPref, getRawOrder, getWorkbookFromApplicants } from "./data/index.js";
 import { PreferenceIDs } from "./data/constants.js";
+import buckets from "./data/buckets.js";
 
 const Headers = [
 	"Unfiltered Rank<br>Ticket #",
@@ -56,6 +57,14 @@ function processWorkbook(
 	const sheetName = workbook.SheetNames[0].trim();
 	const applicants = getApplicants(workbook);
 	const output = getWorkbookFromApplicants(applicants);
+	const paths = applicants.map((applicant) => [buckets.getPath(applicant), applicant.LotteryNum]);
+
+	console.table(paths);
+
+	applicants.forEach((applicant) => buckets.addApplicantOnce(applicant));
+//	applicants.forEach((applicant) => buckets.addApplicant(applicant));
+
+	console.table(buckets.getApplicants().map(([{ LotteryNum }, path]) => [path.join("/"), LotteryNum]));
 
 	XLSX.writeFile(output, `${sheetName} - Processed.xlsx`);
 
