@@ -4,9 +4,14 @@ import { PreferenceIDs } from "./data/constants.js";
 
 const Headers = [
 	"Unfiltered Rank<br>Ticket #",
+	"V-COP",
 	"COP",
+	"V-DTHP",
 	"DTHP",
-	"Live/Work",
+	"V-NRHP",
+	"NRHP",
+	"V-L_W",
+	"L_W",
 	"No Preferences",
 ];
 
@@ -30,7 +35,7 @@ function createResults(
 	Headers.forEach((title) => {
 		const header = document.createElement("H4");
 
-		header.innerHTML = title;;
+		header.innerHTML = title;
 		headerContainer.appendChild(header);
 	});
 

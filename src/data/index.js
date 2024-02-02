@@ -5,11 +5,9 @@ const OutputHeaders = [
 	"Lottery Rank",
 	"Lottery Number",
 	"Applicant Full Name",
-	"COP",
-	"DTHP",
-	"Live/Work"
+	...PreferenceIDs,
 ];
-const Columns = [
+const InputColumns = [
 	["Rank", "Lottery Rank (Unsorted)"],
 	["LotteryNum", "Lottery Number"],
 	["Name", "Primary Applicant Contact: Full Name"],
@@ -35,7 +33,7 @@ function getCols(
 	return cols;
 }
 
-function getRowData(
+function getRowAsObject(
 	row,
 	cols)
 {
@@ -53,11 +51,15 @@ export function getApplicants(
 {
 	const ws = workbook.Sheets[workbook.SheetNames[0]];
 	const [header, ...rows] = XLSX.utils.sheet_to_json(ws, { header: 1 });
-	const cols = getCols(Columns, header);
+	const cols = getCols(InputColumns, header);
+	const rowObjects = rows.map((row) => getRowAsObject(row, cols));
 	const applicantsByName = {};
 
-	for (const row of rows) {
-		const { Name, Rank, LotteryNum, PrefName, HasPref } = getRowData(row, cols);
+		// make sure the rows are sorted ascending by lottery rank, which may not always be the case in the exported file
+	rowObjects.sort((a, b) => a.Rank - b.Rank);
+
+	for (const row of rowObjects) {
+		const { Name, Rank, LotteryNum, PrefName, HasPref } = row;
 		const applicant = applicantsByName[Name]
 			|| (applicantsByName[Name] = { Name, Rank, LotteryNum });
 

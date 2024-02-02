@@ -1,3 +1,7 @@
+:root {
+	--count-width: 1rem;
+}
+
 * {
 	box-sizing: border-box;
 }
@@ -77,7 +81,7 @@ header > blockquote {
 }
 
 .row > h4 {
-	margin-left: 2.25rem;
+	margin-left: var(--count-width);
 }
 
 .row > :nth-of-type(1) {
@@ -100,6 +104,10 @@ header > blockquote {
 	color: royalblue;
 }
 
+.row > :nth-of-type(6) {
+	color: darkorange;
+}
+
 .row > ol {
 	margin: 0;
 	padding: 0;
@@ -115,8 +123,8 @@ header > blockquote {
 	font-weight: bold;
 	font-size: .65em;
 	text-align: right;
-	width: 2.25rem;
-	margin-right: 0.35rem;
+	width: var(--count-width);
+	margin-right: 0.2rem;
 	display: inline-block;
 }
 
@@ -138,4 +146,8 @@ kbd {
 
 kbd + kbd {
 	margin-left: .15rem;
+}
+
+@page {
+	margin: .5in .25in;
 }
