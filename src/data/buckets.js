@@ -1,6 +1,6 @@
 import { Bucket } from "./Bucket.js";
 
-export default new Bucket("ROOT", [
+export default new Bucket("/", [
 	new Bucket("COP", ["COP"], [
 		new Bucket("V_COP", ["VET"]),
 		new Bucket("COP"),
@@ -17,5 +17,5 @@ export default new Bucket("ROOT", [
 		new Bucket("V_L_W", ["VET"]),
 		new Bucket("L_W"),
 	]),
-	new Bucket("NO_PREFS"),
+	new Bucket("GENERAL_POOL"),
 ]);

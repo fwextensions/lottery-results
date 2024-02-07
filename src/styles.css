@@ -108,6 +108,18 @@ header > blockquote {
 	color: darkorange;
 }
 
+.row > :nth-of-type(7) {
+	color: darkolivegreen;
+}
+
+.row > :nth-of-type(8) {
+	color: darkorchid;
+}
+
+.row > :nth-of-type(9) {
+	color: darkgoldenrod;
+}
+
 .row > ol {
 	margin: 0;
 	padding: 0;

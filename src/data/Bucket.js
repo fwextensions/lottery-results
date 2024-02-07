@@ -20,7 +20,7 @@ export class Bucket {
 	isAllowed(
 		applicant)
 	{
-		return !this.requirements.length || this.requirements.some((req) => applicant[req]);
+		return !this.requirements.length || this.requirements.some((req) => applicant.prefs[req]);
 	}
 
 	addApplicant(

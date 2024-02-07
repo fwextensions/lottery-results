@@ -1,19 +1,10 @@
 import * as XLSX from "xlsx";
-import { getApplicants, getNoPref, getOrderByPref, getRawOrder, getWorkbookFromApplicants } from "./data/index.js";
-import { PreferenceIDs } from "./data/constants.js";
-import buckets from "./data/buckets.js";
+import { getApplicantsAndPrefs, getNoPref, getOrderByPref, getRawOrder, getWorkbookFromApplicants } from "./data/index.js";
+import rootBucket from "./data/buckets.js";
 
 const Headers = [
 	"Unfiltered Rank<br>Ticket #",
-	"V-COP",
-	"COP",
-	"V-DTHP",
-	"DTHP",
-	"V-NRHP",
-	"NRHP",
-	"V-L_W",
-	"L_W",
-	"No Preferences",
+	"General Pool",
 ];
 
 function createList(
@@ -28,12 +19,15 @@ function createList(
 }
 
 function createResults(
-	applicants)
+	applicants,
+	prefIDs)
 {
 	const headerContainer = document.getElementById("list-headers");
 	const listContainer = document.getElementById("list-columns");
+	const [first, last] = Headers;
+	const headerTitles = [first, ...prefIDs, last];
 
-	Headers.forEach((title) => {
+	headerTitles.forEach((title) => {
 		const header = document.createElement("H4");
 
 		header.innerHTML = title;
@@ -42,7 +36,7 @@ function createResults(
 
 	listContainer.appendChild(createList(getRawOrder(applicants)));
 
-	PreferenceIDs.forEach((pref) => {
+	prefIDs.forEach((pref) => {
 		const lotteryNums = getOrderByPref(applicants, pref);
 
 		listContainer.appendChild(createList(lotteryNums));
@@ -55,20 +49,22 @@ function processWorkbook(
 	workbook)
 {
 	const sheetName = workbook.SheetNames[0].trim();
-	const applicants = getApplicants(workbook);
-	const output = getWorkbookFromApplicants(applicants);
-	const paths = applicants.map((applicant) => [buckets.getPath(applicant), applicant.LotteryNum]);
+	const [applicants, prefIDs] = getApplicantsAndPrefs(workbook);
+	const output = getWorkbookFromApplicants(applicants, prefIDs);
+	const paths = applicants.map((applicant) => [rootBucket.getPath(applicant), applicant.LotteryNum]);
 
 	console.table(paths);
 
-	applicants.forEach((applicant) => buckets.addApplicantOnce(applicant));
-//	applicants.forEach((applicant) => buckets.addApplicant(applicant));
+	applicants.forEach((applicant) => rootBucket.addApplicantOnce(applicant));
+//	applicants.forEach((applicant) => rootBucket.addApplicant(applicant));
 
-	console.table(buckets.getApplicants().map(([{ LotteryNum }, path]) => [path.join("/"), LotteryNum]));
+	console.table(rootBucket.getApplicants().map(([{ LotteryNum }, path]) => [path.join("/"), LotteryNum]));
+
+	console.log(applicants);
 
 	XLSX.writeFile(output, `${sheetName} - Processed.xlsx`);
 
-	createResults(applicants);
+	createResults(applicants, prefIDs);
 	document.getElementById("address").innerText = sheetName;
 	document.getElementById("results").style.display = "block";
 	document.getElementById("drop-target").style.display = "none";

@@ -1,11 +1,10 @@
 import * as XLSX from "xlsx";
-import { PreferenceIDs, Preferences } from "./constants.js";
+import { IndexByPrefID, Preferences } from "./constants.js";
 
 const OutputHeaders = [
 	"Lottery Rank",
 	"Lottery Number",
 	"Applicant Full Name",
-	...PreferenceIDs,
 ];
 const InputColumns = [
 	["Rank", "Lottery Rank (Unsorted)"],
@@ -47,7 +46,7 @@ function getRowAsObject(
 	return data;
 }
 
-export function getApplicants(
+export function getApplicantsAndPrefs(
 	workbook)
 {
 	const ws = workbook.Sheets[workbook.SheetNames[0]];
@@ -55,6 +54,7 @@ export function getApplicants(
 	const cols = getCols(InputColumns, header);
 	const rowObjects = rows.map((row) => getRowAsObject(row, cols));
 	const applicantsByName = {};
+	const foundPrefs = new Set();
 
 		// make sure the rows are sorted ascending by lottery rank, which may not always be the case in the exported file
 	rowObjects.sort((a, b) => a.Rank - b.Rank);
@@ -62,31 +62,43 @@ export function getApplicants(
 	for (const row of rowObjects) {
 		const { Name, Rank, LotteryNum, PrefName, HasPref } = row;
 		const applicant = applicantsByName[Name]
-			|| (applicantsByName[Name] = { Name, Rank, LotteryNum });
+			|| (applicantsByName[Name] = { Name, Rank, LotteryNum, prefs: {} });
 		const prefID = Preferences[PrefName].id;
 
-		applicant[prefID] = HasPref;
+		applicant.prefs[prefID] = HasPref;
+		foundPrefs.add(prefID);
 
 		if (prefID.startsWith("V-")) {
-			applicant[VetPref] = HasPref;
+			applicant.prefs[VetPref] = HasPref;
 		}
 	}
 
-	return Object.values(applicantsByName);
+		// put the prefs in the correct order, since foundPrefs will have them in whatever order they were found in.  then
+		// call flat() to remove any holes in the array, which we'll have if the spreadsheet doesn't include the full
+		// complement of available prefs.
+	const prefsInOrder = [...foundPrefs].reduce((result, pref) => {
+		result[IndexByPrefID[pref]] = pref;
+
+		return result;
+	}, []).flat();
+
+	return [Object.values(applicantsByName), prefsInOrder];
 }
 
 export function getWorkbookFromApplicants(
-	applicants)
+	applicants,
+	prefIDs)
 {
 	const outputRows = applicants.map((applicant) => {
 		const { Rank, LotteryNum, Name } = applicant;
 			// convert the TRUE/FALSE from the spreadsheet to 1 or 0
-		const prefs = PreferenceIDs.map((pref) => Number(applicant[pref]));
+		const prefs = prefIDs.map((pref) => Number(applicant.prefs[pref]));
 
 		return [Rank, LotteryNum, Name, ...prefs];
 	});
 
-	outputRows.unshift(OutputHeaders);
+		// include columns for whatever prefs were found in the source spreadsheet
+	outputRows.unshift([...OutputHeaders, ...prefIDs]);
 
 	return {
 		SheetNames: [OutputSheet],
@@ -106,7 +118,7 @@ export function getOrderByPref(
 	applicants,
 	pref)
 {
-	return applicants.filter((applicant) => !!applicant[pref])
+	return applicants.filter((applicant) => !!applicant.prefs[pref])
 		.map(({ LotteryNum }) => LotteryNum);
 }
 
@@ -114,6 +126,6 @@ export function getNoPref(
 	applicants)
 {
 		// use == to handle "0" strings as well as numbers
-	return applicants.filter((applicant) => PreferenceIDs.every((pref) => applicant[pref] == 0))
+	return applicants.filter(({ prefs }) => Object.values(prefs).every((hasPref) => hasPref == 0))
 		.map(({ LotteryNum }) => LotteryNum);
 }

@@ -13,3 +13,4 @@ export const Preferences = [
 }), {});
 
 export const PreferenceIDs = Object.values(Preferences).map(({ id }) => id);
+export const IndexByPrefID = Object.fromEntries(PreferenceIDs.map((id, i) => [id, i]));
