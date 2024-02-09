@@ -1,4 +1,4 @@
-import { QueryKey, useQuery } from "@tanstack/react-query";
+import { DefaultError, QueryKey, useQuery } from "@tanstack/react-query";
 
 const APIBaseURL = "https://proxy.cors.sh/https://housing.sfgov.org/api/v1/";
 
@@ -22,7 +22,10 @@ export async function callAPI<T>({
 
 export function useRentalListings()
 {
-	return useQuery<ListingResponse>({
+		// we have to pass in the original response type and just the bare Listing
+		// array type to make TS happy, since we're returning just the array
+	return useQuery<ListingResponse, DefaultError, Listing[]>({
 		queryKey: ["listings.json?type=rental&subset=browse"],
+		select: ({ listings }) => listings
 	});
 }

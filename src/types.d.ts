@@ -6,4 +6,4 @@ type Listing = {
 };
 type ListingResponse = {
 	listings: Listing[];
-}
+};
