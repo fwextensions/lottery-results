@@ -1,41 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
-
-type Listing = {
-	Id: string;
-	Name: string;
-	Lottery_Results_Date: string;
-	Lottery_Status: string;
-};
-type ListingResponse = {
-	listings: Listing[];
-}
-
-const ListingsURL = "https://proxy.cors.sh/https://housing.sfgov.org/api/v1/listings.json?type=rental&subset=browse";
-//const ListingsURL = "https://housing.sfgov.org/api/v1/listings.json?type=rental&subset=browse";
-
-async function fetchListings(): Promise<ListingResponse>
-{
-	const response = await fetch(ListingsURL, {
-		mode: "cors",
-		headers: {
-			"x-cors-api-key": "temp_1b9093b3d82bb13f461b244c1f0d910e",
-			"Accept": "application/json, text/plain, */*",
-		}
-	});
-
-	if (!response.ok) {
-		throw new Error("Bad response", { cause: response.statusText });
-	}
-
-	return response.json();
-}
+import { useRentalListings } from "@/hooks/queries";
 
 export default function ListingPicker()
 {
-	const { isPending, isError, data, error } = useQuery({
-		queryKey: ["listings"],
-		queryFn: fetchListings,
-	});
+	const { isPending, isError, data, error } = useRentalListings();
 
 	if (isPending) {
 		return <span>Loading...</span>;
@@ -45,9 +12,11 @@ export default function ListingPicker()
 		return <span>Error: {error.message}</span>;
 	}
 
+	const listings = data.listings.filter(({ Lottery_Status }) => Lottery_Status === "Lottery Complete");
+
 	return (
 		<ul>
-			{data?.listings.map((listing) => (
+			{listings.map((listing) => (
 				<li key={listing.Id}>{listing.Name}</li>
 			))}
 		</ul>
