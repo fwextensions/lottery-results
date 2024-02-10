@@ -1,3 +1,4 @@
+import { useId } from "react";
 import Select, { CSSObjectWithLabel, SingleValue } from "react-select";
 import { useRentalListings } from "@/hooks/queries";
 import { by } from "@/utils";
@@ -29,11 +30,15 @@ export default function ListingPicker({
 	onChange }: ListingPickerProps)
 {
 	const { isPending, isError, data, error } = useRentalListings();
+		// we need to use this hook to get a stable, globally unique ID to use on
+		// the react-select to avoid a hydration warning error with next.js.  ffs
+	const selectID = useId();
 
 	if (isError) {
 		return <span>Error: {error.message}</span>;
 	}
 
+		// show just listings with complete lotteries, sorted descending by date
 	const listings = isPending
 		? []
 		: data
@@ -42,6 +47,7 @@ export default function ListingPicker({
 
 	return (
 		<Select
+			instanceId={selectID}
 			options={listings}
 			getOptionValue={getListingValue}
 			getOptionLabel={getListingLabel}
