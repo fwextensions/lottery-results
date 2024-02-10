@@ -1,4 +1,4 @@
-const apiURL = process.env.API_BASE_URL;
+const apiURL = process.env.DAHLIA_API_BASE_URL;
 
 /** @type {import("next").NextConfig} */
 const nextConfig = {
