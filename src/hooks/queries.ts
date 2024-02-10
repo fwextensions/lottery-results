@@ -1,6 +1,19 @@
-import { DefaultError, QueryKey, useQuery } from "@tanstack/react-query";
+import {
+	DefaultError,
+	QueryClient,
+	QueryKey,
+	useQuery
+} from "@tanstack/react-query";
 
 const APIBaseURL = "/dahlia/";
+
+export const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			queryFn: callAPI,
+		},
+	},
+});
 
 export async function callAPI<T>({
 	queryKey }: { queryKey: QueryKey }): Promise<T>
