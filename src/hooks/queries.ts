@@ -33,8 +33,9 @@ export function useRentalListings()
 export function useLotteryResults(
 	listingID?: string)
 {
-	return useQuery({
+	return useQuery<LotteryResponse>({
 		queryKey: [`listings/${listingID}/lottery_ranking?lottery_number=`],
-		enabled: Boolean(listingID)
+		enabled: Boolean(listingID),
+		staleTime: 10 * 60 * 1000, // 10 minutes
 	});
 }

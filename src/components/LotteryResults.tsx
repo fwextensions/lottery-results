@@ -1,4 +1,5 @@
 import { useLotteryResults } from "@/hooks/queries";
+import LotteryBuckets from "@/components/LotteryBuckets";
 
 const Message = ({ message }: { message: string }) => (
 	<div style={{ fontWeight: "bold", padding: "4rem", textAlign: "center" }}>{message}</div>
@@ -42,9 +43,7 @@ export default function LotteryResults({
 					Preference Lists
 				</h3>
 			</header>
-			<pre>
-				{JSON.stringify(data, null, 2)}
-			</pre>
+			<LotteryBuckets buckets={data.lotteryBuckets} />
 		</article>
 	);
 }

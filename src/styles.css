@@ -1,5 +1,5 @@
 :root {
-	--count-width: 1rem;
+	--count-width: 2rem;
 }
 
 * {
@@ -82,14 +82,8 @@ header > blockquote {
 	display: flex;
 }
 
-.row > * {
-	list-style: none;
-	counter-reset: lottery;
+.row > div {
 	flex: 1;
-}
-
-.row > h4 {
-	margin-left: var(--count-width);
 }
 
 .row > :nth-of-type(1) {
@@ -128,16 +122,26 @@ header > blockquote {
 	color: darkgoldenrod;
 }
 
-.row > ol {
+.row h4 {
+	margin-left: var(--count-width);
+	height: 2rem;
+	align-content: flex-end;
+	flex-wrap: wrap;
+	display: flex;
+}
+
+.row ol {
+	list-style: none;
+	counter-reset: lottery;
 	margin: 0;
 	padding: 0;
 }
 
-.row > ol > li {
+.row ol > li {
 	counter-increment: lottery;
 }
 
-.row > ol > li::before {
+.row ol > li::before {
 	content: counter(lottery) ".";
 	color: #aaa;
 	font-weight: bold;

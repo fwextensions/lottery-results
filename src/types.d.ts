@@ -10,3 +10,21 @@ type Listing = {
 type ListingResponse = {
 	listings: Listing[];
 };
+
+type Applicant = {
+	lotteryNumber: string;
+	lotteryRank: number;
+	applicationID: string;
+}
+
+type LotteryBucket = {
+	preferenceName: string;
+	preferenceResults: Applicant[];
+}
+
+type LotteryResponse = {
+	lotteryBuckets: LotteryBucket[];
+	lotteryDate: string;
+	lotteryResultsURL: string;
+	lotteryStatus: string;
+}

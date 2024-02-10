@@ -47,6 +47,7 @@ export default function ListingPicker({
 			getOptionLabel={getListingLabel}
 			formatOptionLabel={formatListingLabel}
 			isLoading={isPending}
+			placeholder="Select a listing"
 			onChange={onChange}
 			styles={{
 				control: widthStyle,
