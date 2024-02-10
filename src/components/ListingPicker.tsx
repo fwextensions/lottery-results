@@ -1,4 +1,4 @@
-import Select from "react-select";
+import Select, { CSSObjectWithLabel, SingleValue } from "react-select";
 import { useRentalListings } from "@/hooks/queries";
 import { by } from "@/utils";
 
@@ -16,8 +16,17 @@ const getListingValue = (listing: Listing) => listing.Id;
 const formatListingLabel = (listing: Listing) => (
 	<ListingPickerLabel name={listing.Name} date={listing.Lottery_Results_Date} />
 );
+const widthStyle = (base: CSSObjectWithLabel) => ({
+	...base,
+	width: "30rem"
+});
 
-export default function ListingPicker()
+type ListingPickerProps = {
+	onChange?: (listing: SingleValue<Listing>) => void;
+}
+
+export default function ListingPicker({
+	onChange }: ListingPickerProps)
 {
 	const { isPending, isError, data, error } = useRentalListings();
 
@@ -38,6 +47,11 @@ export default function ListingPicker()
 			getOptionLabel={getListingLabel}
 			formatOptionLabel={formatListingLabel}
 			isLoading={isPending}
+			onChange={onChange}
+			styles={{
+				control: widthStyle,
+				menu: widthStyle,
+			}}
 		/>
 	);
 }

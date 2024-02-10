@@ -43,11 +43,15 @@ body {
 	display: none;
 }
 
-main {
-	padding: 3rem;
+main > header {
+	padding: .5rem;
 }
 
-header {
+main > article {
+	padding: 4rem 2rem;
+}
+
+article > header {
 	text-align: center;
 }
 

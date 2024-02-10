@@ -29,3 +29,12 @@ export function useRentalListings()
 		select: ({ listings }) => listings
 	});
 }
+
+export function useLotteryResults(
+	listingID?: string)
+{
+	return useQuery({
+		queryKey: [`listings/${listingID}/lottery_ranking?lottery_number=`],
+		enabled: Boolean(listingID)
+	});
+}

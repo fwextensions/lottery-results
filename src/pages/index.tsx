@@ -1,29 +1,22 @@
+import { useState } from "react";
+import { SingleValue } from "react-select";
 import ListingPicker from "@/components/ListingPicker";
+import LotteryResults from "@/components/LotteryResults";
 
-export default function App() {
+export default function App()
+{
+	const [currentListing, setCurrentListing] = useState<Listing | undefined>();
+
+	const handleListingChange = (listing: SingleValue<Listing>) => {
+		setCurrentListing(listing ?? undefined);
+	}
+
 	return (
 		<main>
 			<header>
-				<h1>
-					Mayor's Office of Housing and Community Development
-					<br />
-					<img src="https://www.sf.gov/themes/custom/sfgovpl/logo.svg" alt="SF" className="seal" />
-				</h1>
-				<h2 id="address"></h2>
-				<blockquote>
-					Press <kbd>ctrl</kbd><kbd>F</kbd> and enter your lottery ticket
-					number
-					to see results
-				</blockquote>
-				<h3>
-					Preference Lists
-				</h3>
+				<ListingPicker onChange={handleListingChange} />
 			</header>
-			<div id="lists">
-				<div id="list-headers" className="row"></div>
-				<div id="list-columns" className="row"></div>
-			</div>
-			<ListingPicker />
+			<LotteryResults listing={currentListing} />
 		</main>
 	);
 }
