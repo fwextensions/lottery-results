@@ -13,7 +13,7 @@ export default function App()
 
 	return (
 		<main>
-			<header>
+			<header className="toolbar">
 				<ListingPicker onChange={handleListingChange} />
 			</header>
 			<LotteryResults listing={currentListing} />

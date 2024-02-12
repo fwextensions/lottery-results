@@ -42,7 +42,7 @@ export default function ListingPicker({
 	const listings = isPending
 		? []
 		: data
-			.filter(({ Lottery_Status }) => Lottery_Status === "Lottery Complete")
+			.filter(({ Lottery_Status }) => Lottery_Status.includes("Complete"))
 			.sort(by("Lottery_Results_Date", true));
 
 	return (

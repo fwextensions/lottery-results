@@ -22,9 +22,11 @@ export default function LotteryResults({
 		return <Message message="Loading..." />
 	}
 
-	if (!data) {
+	if (!data || !listing) {
 		return null;
 	}
+
+	const { Name, Building_Street_Address, Lottery_Results_Date } = listing;
 
 	return (
 		<article>
@@ -34,7 +36,13 @@ export default function LotteryResults({
 					<br />
 					<img src="https://www.sf.gov/themes/custom/sfgovpl/logo.svg" alt="SF" className="seal" />
 				</h1>
-				<h2 id="address"></h2>
+				<h2>
+					{Name}
+					<br />
+					{Building_Street_Address}
+					<br />
+					{Lottery_Results_Date}
+				</h2>
 				<blockquote>
 					Press <kbd>ctrl</kbd><kbd>F</kbd> and enter your lottery ticket
 					number to see results
