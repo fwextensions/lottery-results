@@ -3,13 +3,13 @@ import Cors from "cors";
 import { chromium as playwright } from "playwright-core";
 import chromium from "@sparticuz/chromium";
 
-	// support CORS on these methods
+// support CORS on these methods
 const cors = Cors({
 	methods: ["POST", "GET", "HEAD"],
 });
 
 async function generatePDF(
-	listingID: string)
+	url: string)
 {
   const browser = await playwright.launch({
     args: chromium.args,
@@ -18,7 +18,9 @@ async function generatePDF(
   });
 	const page = await browser.newPage();
 
-	await page.goto(`/lottery/${listingID}`);
+	console.log("generatePDF", url);
+
+	await page.goto(url);
 
 	const buffer = await page.pdf();
 
@@ -51,8 +53,10 @@ export default async function handler(
 		// run the CORS middleware
 	await runMiddleware(req, res, cors);
 
-	const { listingID } = req.query;
-	const buffer = await generatePDF(listingID as string);
+	const { query: { listingID }, headers: { host } } = req;
+	const buffer = await generatePDF("https://www.sf.gov/information/about-sfgov");
+//	const buffer = await generatePDF(`https://${host}/lottery/${listingID}`);
+//	const buffer = await generatePDF(`https://${host}`);
 
 	res.setHeader("Content-Disposition", `attachment; filename="${listingID}.pdf"`);
 	res.setHeader("Content-Type", "application/pdf");
