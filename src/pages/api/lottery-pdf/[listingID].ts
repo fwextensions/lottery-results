@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import Cors from "cors";
-import { chromium } from "@playwright/test";
+import { chromium as playwright } from "playwright-core";
+import chromium from "@sparticuz/chromium";
 
 	// support CORS on these methods
 const cors = Cors({
@@ -9,7 +10,13 @@ const cors = Cors({
 
 async function generatePDF()
 {
-	const browser = await chromium.launch();
+	console.log("=== executablePath", await chromium.executablePath());
+
+  const browser = await playwright.launch({
+    args: chromium.args,
+    executablePath: await chromium.executablePath(),
+    headless: true,
+  });
 	const page = await browser.newPage();
 
 	await page.goto("https://www.sf.gov/information/about-sfgov");
