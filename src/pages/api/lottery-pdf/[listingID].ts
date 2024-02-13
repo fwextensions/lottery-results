@@ -8,10 +8,9 @@ const cors = Cors({
 	methods: ["POST", "GET", "HEAD"],
 });
 
-async function generatePDF()
+async function generatePDF(
+	listingID: string)
 {
-	console.log("=== executablePath", await chromium.executablePath());
-
   const browser = await playwright.launch({
     args: chromium.args,
     executablePath: await chromium.executablePath(),
@@ -19,7 +18,7 @@ async function generatePDF()
   });
 	const page = await browser.newPage();
 
-	await page.goto("https://www.sf.gov/information/about-sfgov");
+	await page.goto(`/lottery/${listingID}`);
 
 	const buffer = await page.pdf();
 
@@ -53,7 +52,7 @@ export default async function handler(
 	await runMiddleware(req, res, cors);
 
 	const { listingID } = req.query;
-	const buffer = await generatePDF();
+	const buffer = await generatePDF(listingID as string);
 
 	res.setHeader("Content-Disposition", `attachment; filename="${listingID}.pdf"`);
 	res.setHeader("Content-Type", "application/pdf");
