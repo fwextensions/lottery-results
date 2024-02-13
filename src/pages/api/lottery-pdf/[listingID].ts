@@ -1,15 +1,23 @@
-import { readFile } from "node:fs/promises";
-import path from "node:path";
-import Cors from "cors";
 import type { NextApiRequest, NextApiResponse } from "next";
+import Cors from "cors";
+import { chromium } from "@playwright/test";
 
 	// support CORS on these methods
 const cors = Cors({
 	methods: ["POST", "GET", "HEAD"],
 });
 
-// Helper method to wait for a middleware to execute before continuing
-// And to throw an error when an error happens in a middleware
+async function generatePDF()
+{
+	const browser = await chromium.launch();
+	const page = await browser.newPage();
+
+	await page.goto("https://www.sf.gov/information/about-sfgov");
+
+	return page.pdf();
+}
+
+	// helper method to wait for a middleware to execute before continuing
 function runMiddleware(
 	req: NextApiRequest,
 	res: NextApiResponse,
@@ -30,18 +38,13 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse,
 ) {
-	const filename = "Veteran Lottery Results.pdf";
-
 		// run the CORS middleware
 	await runMiddleware(req, res, cors);
 
 	const { listingID } = req.query;
-	console.log(listingID);
+	const buffer = await generatePDF();
 
-		// process.cwd() is the root of the Next.js app
-	const buffer = await readFile(path.join(process.cwd(), `src/pages/api/lottery-pdf/${filename}`));
-
-	res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+	res.setHeader("Content-Disposition", `attachment; filename="${listingID}.pdf"`);
 	res.setHeader("Content-Type", "application/pdf");
 	res.send(buffer);
 }
