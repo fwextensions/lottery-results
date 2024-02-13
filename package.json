@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.18.1",
+    "cors": "^2.8.5",
     "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18",
@@ -22,6 +23,7 @@
     "xlsx": "file:vendor/xlsx-0.20.1.tgz"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
