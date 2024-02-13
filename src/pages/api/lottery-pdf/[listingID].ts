@@ -14,7 +14,11 @@ async function generatePDF()
 
 	await page.goto("https://www.sf.gov/information/about-sfgov");
 
-	return page.pdf();
+	const buffer = await page.pdf();
+
+	await browser.close();
+
+	return buffer;
 }
 
 	// helper method to wait for a middleware to execute before continuing
