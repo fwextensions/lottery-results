@@ -80,6 +80,13 @@ jspm_packages/
 .yarn/install-state.gz
 .pnp.*
 
+# playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# local
 .idea
 To do.md
 *.xls

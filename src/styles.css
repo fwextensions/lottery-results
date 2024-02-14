@@ -146,6 +146,7 @@ header > blockquote {
 
 .row ol > li {
 	counter-increment: lottery;
+	white-space: nowrap;
 }
 
 .row ol > li::before {

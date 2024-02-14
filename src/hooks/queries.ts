@@ -31,9 +31,20 @@ export function useRentalListings()
 {
 		// we have to pass in the original response type and just the bare Listing
 		// array type to make TS happy, since we're returning just the array
-	return useQuery<ListingResponse, DefaultError, Listing[]>({
+	return useQuery<ListingsResponse, DefaultError, Listing[]>({
 		queryKey: ["listings.json?type=rental&subset=browse"],
 		select: ({ listings }) => listings
+	});
+}
+
+export function useListing(
+	listingID?: string)
+{
+	return useQuery<ListingResponse, DefaultError, Listing>({
+		queryKey: [`listings/${listingID}`],
+		select: ({ listing }) => listing,
+		enabled: Boolean(listingID),
+		staleTime: 10 * 60 * 1000, // 10 minutes
 	});
 }
 

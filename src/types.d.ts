@@ -10,8 +10,12 @@ type Listing = {
 	Building_Street_Address: string;
 };
 
-type ListingResponse = {
+type ListingsResponse = {
 	listings: Listing[];
+};
+
+type ListingResponse = {
+	listing: Listing;
 };
 
 type Applicant = {
