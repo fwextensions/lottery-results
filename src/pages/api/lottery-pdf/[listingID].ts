@@ -3,7 +3,9 @@ import Cors from "cors";
 import { chromium as playwright } from "playwright-core";
 import chromium from "@sparticuz/chromium";
 
-// support CORS on these methods
+chromium.setGraphicsMode = false;
+
+	// support CORS on these methods
 const cors = Cors({
 	methods: ["POST", "GET", "HEAD"],
 });
@@ -54,9 +56,7 @@ export default async function handler(
 	await runMiddleware(req, res, cors);
 
 	const { query: { listingID }, headers: { host } } = req;
-	const buffer = await generatePDF("https://www.sf.gov/information/about-sfgov");
-//	const buffer = await generatePDF(`https://${host}/lottery/${listingID}`);
-//	const buffer = await generatePDF(`https://${host}`);
+	const buffer = await generatePDF(`https://${host}/lottery/${listingID}`);
 
 	res.setHeader("Content-Disposition", `attachment; filename="${listingID}.pdf"`);
 	res.setHeader("Content-Type", "application/pdf");
