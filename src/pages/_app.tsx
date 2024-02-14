@@ -1,4 +1,5 @@
 import type { AppProps } from "next/app";
+import Head from "next/head";
 import { QueryClientProvider } from "@tanstack/react-query";
 import Favicon from "@/components/Favicon";
 import { queryClient } from "@/hooks/queries";
@@ -11,9 +12,14 @@ export default function AppContainer({
 	pageProps }: AppProps)
 {
 	return (
-		<QueryClientProvider client={queryClient}>
+		<>
+			<Head>
+				<title>Lottery Results</title>
+			</Head>
 			<Favicon />
-			<Component {...pageProps} />
-		</QueryClientProvider>
+			<QueryClientProvider client={queryClient}>
+				<Component {...pageProps} />
+			</QueryClientProvider>
+		</>
 	);
 }
