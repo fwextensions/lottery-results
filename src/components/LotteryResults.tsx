@@ -1,4 +1,5 @@
 import { useLotteryResults } from "@/hooks/queries";
+import { processLotteryBuckets } from "@/data/processLotteryBuckets";
 import LotteryBuckets from "@/components/LotteryBuckets";
 
 const Message = ({ message }: { message: string }) => (
@@ -26,6 +27,9 @@ export default function LotteryResults({
 		return null;
 	}
 
+		// combine the Veteran and non-Veteran applicants into one bucket per
+		// preference before passing it to the LotteryBuckets component
+	const buckets = processLotteryBuckets(data.lotteryBuckets);
 	const { Name, Building_Street_Address, Lottery_Results_Date } = listing;
 
 	return (
@@ -51,7 +55,7 @@ export default function LotteryResults({
 					Preference Lists
 				</h3>
 			</header>
-			<LotteryBuckets buckets={data.lotteryBuckets} />
+			<LotteryBuckets buckets={buckets} />
 		</article>
 	);
 }

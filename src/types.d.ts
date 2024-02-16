@@ -22,6 +22,7 @@ type Applicant = {
 	lotteryNumber: string;
 	lotteryRank: number;
 	applicationID: string;
+	hasVeteranPref?: boolean;
 }
 
 type LotteryBucket = {
