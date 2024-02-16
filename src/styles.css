@@ -46,6 +46,9 @@ body {
 main > header.toolbar {
 	background: #eee;
 	padding: .5rem;
+	align-items: center;
+	gap: 1.5rem;
+	display: flex;
 }
 
 main > article {

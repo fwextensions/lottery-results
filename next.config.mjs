@@ -11,6 +11,10 @@ const nextConfig = {
 				source: "/dahlia/:path*",
 				destination: `${apiURL}/:path*`,
 			},
+			{
+				source: "/:path*",
+				destination: "/",
+			},
 		];
 	},
 };

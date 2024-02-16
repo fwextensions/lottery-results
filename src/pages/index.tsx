@@ -1,31 +1,35 @@
-import { useState } from "react";
-import { SingleValue } from "react-select";
-import Head from "next/head";
-import ListingPicker from "@/components/ListingPicker";
-import LotteryResults from "@/components/LotteryResults";
+import { useEffect, useState } from "react";
+import {
+	BrowserRouter as Router,
+	Routes,
+	Route,
+} from "react-router-dom";
+import App from "@/components/App";
 
-export default function App()
+export default function RoutesContainer()
 {
-	const [currentListing, setCurrentListing] = useState<Listing | undefined>();
-	const title = currentListing ? `Lottery Results - ${currentListing.Name}` : "";
+		// react-router-dom requires access to the document, so it can't run on the
+		// server when next.js first renders the page.  so assume we're on the server
+		// during the first render and return null in that case.
+  const [isServer, setIsServer] = useState(true);
 
-	const handleListingChange = (listing: SingleValue<Listing>) => {
-		setCurrentListing(listing ?? undefined);
+  useEffect(() => {
+    setIsServer(false);
+  }, []);
+
+  if (isServer) {
+		return null;
 	}
 
+		// we want to share the same element across all / routes
+	const app = <App />;
+
 	return (
-		<>
-			{title &&
-				<Head>
-					<title>{title}</title>
-				</Head>
-			}
-			<main>
-				<header className="toolbar">
-					<ListingPicker onChange={handleListingChange} />
-				</header>
-				<LotteryResults listing={currentListing} />
-			</main>
-		</>
+		<Router>
+			<Routes>
+				<Route path="/:listingID" element={app} />
+				<Route path="/" element={app} />
+			</Routes>
+		</Router>
 	);
 }

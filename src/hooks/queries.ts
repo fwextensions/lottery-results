@@ -38,13 +38,17 @@ export function useRentalListings()
 }
 
 export function useListing(
-	listingID?: string)
+	listingID?: string,
+	listing?: Listing)
 {
 	return useQuery<ListingResponse, DefaultError, Listing>({
 		queryKey: [`listings/${listingID}`],
 		select: ({ listing }) => listing,
 		enabled: Boolean(listingID),
 		staleTime: 10 * 60 * 1000, // 10 minutes
+			// make sure the listing passed in as the initial data is the same has the
+			// same ID as requested in the listingID param
+		initialData: listing?.Id === listingID ? { listing } as ListingResponse : undefined,
 	});
 }
 

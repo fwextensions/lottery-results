@@ -23,10 +23,12 @@ const widthStyle = (base: CSSObjectWithLabel) => ({
 });
 
 type ListingPickerProps = {
+	value?: Listing;
 	onChange?: (listing: SingleValue<Listing>) => void;
 }
 
 export default function ListingPicker({
+	value,
 	onChange }: ListingPickerProps)
 {
 	const { isPending, isError, data, error } = useRentalListings();
@@ -48,6 +50,7 @@ export default function ListingPicker({
 	return (
 		<Select
 			instanceId={selectID}
+			value={value ?? null}
 			options={listings}
 			getOptionValue={getListingValue}
 			getOptionLabel={getListingLabel}

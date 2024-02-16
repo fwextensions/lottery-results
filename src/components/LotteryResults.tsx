@@ -1,10 +1,7 @@
 import { useLotteryResults } from "@/hooks/queries";
 import { processLotteryBuckets } from "@/data/processLotteryBuckets";
 import LotteryBuckets from "@/components/LotteryBuckets";
-
-const Message = ({ message }: { message: string }) => (
-	<div style={{ fontWeight: "bold", padding: "4rem", textAlign: "center" }}>{message}</div>
-);
+import Message from "@/components/Message";
 
 type LotteryResultsProps = {
 	listing?: Listing;
