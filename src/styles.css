@@ -71,6 +71,15 @@ header .seal {
 	margin: 2rem 0;
 }
 
+header aside {
+	color: #bbb;
+	font-style: italic;
+	font-size: smaller;
+	margin-top: -2rem;
+	right: 4rem;
+	position: absolute;
+}
+
 #address {
 	margin-top: 0;
 }

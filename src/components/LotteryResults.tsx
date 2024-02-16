@@ -54,6 +54,9 @@ export default function LotteryResults({
 				<h3>
 					Preference Lists
 				</h3>
+				<aside>
+					* = Veteran
+				</aside>
 			</header>
 			<LotteryBuckets buckets={buckets} />
 		</article>
