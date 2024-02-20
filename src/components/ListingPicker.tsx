@@ -40,11 +40,12 @@ export default function ListingPicker({
 		return <span>Error: {error.message}</span>;
 	}
 
-		// show just listings with complete lotteries, sorted descending by date
+		// show just listings with complete lotteries, sorted descending by date.
+		// some listings have no Lottery_Status for some reason.
 	const listings = isPending
 		? []
 		: data
-			.filter(({ Lottery_Status }) => Lottery_Status.includes("Complete"))
+			.filter(({ Lottery_Status }) => Lottery_Status?.includes("Complete"))
 			.sort(by("Lottery_Results_Date", true));
 
 	return (
