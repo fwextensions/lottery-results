@@ -12,6 +12,7 @@ export default function App()
 		// listing selected in the menu and the one specified by listing ID in the
 		// URL.  one sets the other, depending on which is set first.
 	const [menuListing, setMenuListing] = useState<Listing | undefined>();
+	const [combineGroups, setCombineGroups] = useState(true);
 	const { listingID } = useParams();
 	const navigate = useNavigate();
 	const { data: listing } = useListing(listingID, menuListing);
@@ -48,9 +49,19 @@ export default function App()
 						value={listing}
 						onChange={handleMenuChange}
 					/>
+					<label htmlFor="combine-groups">
+						<input
+							id="combine-groups"
+							type="checkbox"
+							checked={combineGroups}
+							onChange={(event) => setCombineGroups(event.target.checked)}
+						/>
+						Combine groups
+					</label>
 				</header>
 				<LotteryResults
 					listing={listing}
+					combineGroups={combineGroups}
 				/>
 			</main>
 		</>

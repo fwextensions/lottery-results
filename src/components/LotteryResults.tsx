@@ -5,10 +5,12 @@ import Message from "@/components/Message";
 
 type LotteryResultsProps = {
 	listing?: Listing;
+	combineGroups?: boolean;
 }
 
 export default function LotteryResults({
-	listing }: LotteryResultsProps)
+	listing,
+	combineGroups }: LotteryResultsProps)
 {
 	const { data, error, isFetching, isError } = useLotteryResults(listing?.Id);
 
@@ -16,18 +18,25 @@ export default function LotteryResults({
 		return <Message message={error.message} />
 	}
 
-	if (isFetching) {
-		return <Message message="Loading..." />
-	}
-
 	if (!data || !listing) {
+		if (isFetching) {
+				// only show the loading message if we're fetching because we don't have
+				// any data yet.  if there's cached data and the refetch is triggered,
+				// we'll just show the cached data with no message.
+			return <Message message="Loading..." />
+		}
+
 		return null;
 	}
 
 		// combine the Veteran and non-Veteran applicants into one bucket per
 		// preference before passing it to the LotteryBuckets component
-	const buckets = processLotteryBuckets(data.lotteryBuckets);
-	const { Name, Building_Street_Address, Lottery_Results_Date } = listing;
+	const buckets = processLotteryBuckets(data.lotteryBuckets, combineGroups);
+	const { Name, Building_Street_Address } = listing;
+		// the date on the lottery_ranking response is the date of the lottery, while
+		// Lottery_Results_Date is the date when they become official and are posted
+		// as a PDF.  we want to include the former here.
+	const lotteryDate = new Date(data.lotteryDate).toLocaleDateString();
 
 	return (
 		<article>
@@ -39,18 +48,19 @@ export default function LotteryResults({
 				</h1>
 				<h2>
 					{Name}
-					<br />
+				</h2>
+				<h3>
 					{Building_Street_Address}
 					<br />
-					{Lottery_Results_Date}
-				</h2>
+					{lotteryDate}
+				</h3>
 				<blockquote>
 					Press <kbd>ctrl</kbd><kbd>F</kbd> and enter your lottery ticket
-					number to see results
+					number to find your rank
 				</blockquote>
-				<h3>
+				<h4>
 					Preference Lists
-				</h3>
+				</h4>
 				<aside>
 					* = Veteran
 				</aside>

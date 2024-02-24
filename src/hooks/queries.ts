@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-query";
 
 const APIBaseURL = "/dahlia/";
+const Time30Min = 30 * 60 * 1000; // 30 minutes
 
 export const queryClient = new QueryClient({
 	defaultOptions: {
@@ -45,7 +46,7 @@ export function useListing(
 		queryKey: [`listings/${listingID}`],
 		select: ({ listing }) => listing,
 		enabled: Boolean(listingID),
-		staleTime: 10 * 60 * 1000, // 10 minutes
+		staleTime: Time30Min,
 			// make sure the listing passed in as the initial data is the same has the
 			// same ID as requested in the listingID param
 		initialData: listing?.Id === listingID ? { listing } as ListingResponse : undefined,
@@ -58,6 +59,6 @@ export function useLotteryResults(
 	return useQuery<LotteryResponse>({
 		queryKey: [`listings/${listingID}/lottery_ranking?lottery_number=`],
 		enabled: Boolean(listingID),
-		staleTime: 10 * 60 * 1000, // 10 minutes
+		staleTime: Time30Min,
 	});
 }
