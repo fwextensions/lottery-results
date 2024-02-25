@@ -157,12 +157,21 @@ header > blockquote {
 	color: darkgoldenrod;
 }
 
-.row h4 {
-	margin-left: var(--count-width);
-	height: 2rem;
-	align-content: flex-end;
+.row h4, .row h5 {
+	margin: .25rem 0 .5rem var(--count-width);
 	flex-wrap: wrap;
 	display: flex;
+}
+
+.row h4 {
+	height: 2em;
+	align-content: flex-end;
+}
+
+.row h5 {
+	font-size: .6rem;
+	font-weight: normal;
+	height: 2.5em;
 }
 
 .row ol {

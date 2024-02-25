@@ -1,15 +1,16 @@
-import { ReactElement } from "react";
 import { Preferences } from "@/utils/constants";
 import { by } from "@/utils";
 
 type ColumnProps = {
 	bucket: LotteryBucket;
-	title?: string | ReactElement;
+	title?: string;
+	subtitle?: string;
 };
 
 function Column({
 	bucket,
-	title = Preferences[bucket.preferenceName].id }: ColumnProps)
+	title = Preferences[bucket.preferenceName].id,
+	subtitle = Preferences[bucket.preferenceName].subtitle }: ColumnProps)
 {
 	const items = bucket.preferenceResults.map(({ lotteryNumber, hasVeteranPref }) => (
 		<li key={lotteryNumber}>
@@ -20,6 +21,7 @@ function Column({
 	return (
 		<div>
 			<h4>{title}</h4>
+			<h5>{subtitle}</h5>
 			<ol>
 				{items}
 			</ol>
@@ -54,7 +56,8 @@ export default function LotteryBuckets({
 					preferenceResults: applicantsByRank,
 					preferenceName: "Unfiltered"
 				}}
-				title={<>Unfiltered Rank<br/>Ticket #</>}
+				title="Unfiltered Rank"
+				subtitle="Ticket #"
 			/>
 			{columns}
 		</div>
