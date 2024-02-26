@@ -1,16 +1,15 @@
 import { Preferences } from "@/utils/constants";
 import { by } from "@/utils";
+import { ReactElement } from "react";
+
+const ColumnMaxWidth = 20; // in ch units
 
 type ColumnProps = {
 	bucket: LotteryBucket;
-	title?: string;
-	subtitle?: string;
 };
 
 function Column({
-	bucket,
-	title = Preferences[bucket.preferenceName].id,
-	subtitle = Preferences[bucket.preferenceName].subtitle }: ColumnProps)
+	bucket }: ColumnProps)
 {
 	const items = bucket.preferenceResults.map(({ lotteryNumber, hasVeteranPref }) => (
 		<li key={lotteryNumber}>
@@ -19,13 +18,9 @@ function Column({
 	));
 
 	return (
-		<div>
-			<h4>{title}</h4>
-			<h5>{subtitle}</h5>
-			<ol>
-				{items}
-			</ol>
-		</div>
+		<ol>
+			{items}
+		</ol>
 	);
 }
 
@@ -36,9 +31,6 @@ type LotteryBucketsProps = {
 export default function LotteryBuckets({
 	buckets }: LotteryBucketsProps)
 {
-	const columns = buckets.map((bucket) => (
-		<Column key={bucket.preferenceName} bucket={bucket} />
-	));
 	const applicants = new Map();
 
 		// combine all the buckets into one list with every applicant appearing once
@@ -46,20 +38,58 @@ export default function LotteryBuckets({
 		applicants.set(applicant.lotteryNumber, applicant);
 	});
 
-		// create the rank-ordered list of applicants
-	const applicantsByRank = [...applicants.values()].sort(by("lotteryRank"));
+		// create a bucket with a rank-ordered list of applicants
+	const unfilteredBucket = {
+		preferenceName: "Unfiltered",
+		preferenceResults: [...applicants.values()].sort(by("lotteryRank")),
+	};
+		// put the bucket of unfiltered applicants first
+	const combinedBuckets = [unfilteredBucket, ...buckets];
+	const maxWidth = `${combinedBuckets.length * ColumnMaxWidth}ch`;
+	const titleCells: ReactElement[] = [];
+	const subtitleCells: ReactElement[] = [];
+	const resultCells: ReactElement[] = [];
 
+	combinedBuckets.forEach((bucket) => {
+		const { id, subtitle } = Preferences[bucket.preferenceName];
+
+		titleCells.push(
+			<th>
+				<h4 key={id}>{id}</h4>
+			</th>
+		);
+		subtitleCells.push(
+			<td>
+				<h5 key={id}>{subtitle}</h5>
+			</td>
+		);
+		resultCells.push(
+			<td>
+				<Column key={id} bucket={bucket} />
+			</td>
+		);
+	});
+
+		// to allow the table to expand, up to a point, when there's more room, we
+		// have to put it inside a section that has a max-width set on it, based on
+		// the number of columns.  we can't calculate that in CSS, unfortunately.
 	return (
-		<div className="row">
-			<Column
-				bucket={{
-					preferenceResults: applicantsByRank,
-					preferenceName: "Unfiltered"
-				}}
-				title="Unfiltered Rank"
-				subtitle="Ticket #"
-			/>
-			{columns}
-		</div>
+		<section style={{ maxWidth }}>
+			<table>
+				<thead>
+					<tr className="row">
+						{titleCells}
+					</tr>
+				</thead>
+				<tbody>
+					<tr className="row">
+						{subtitleCells}
+					</tr>
+					<tr className="row">
+						{resultCells}
+					</tr>
+				</tbody>
+			</table>
+		</section>
 	);
 }

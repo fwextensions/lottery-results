@@ -12,6 +12,9 @@ const Units40Pct = "Up to 40% of units";
 const Units20Pct = "Up to 20% of units";
 const UnitsRemaining = "Remaining units";
 
+	// the first item in each array is the preference name supplied by Salesforce.
+	// the second is a shorter ID we want to use to refer to it in our code and in
+	// the results PDF.  the third item is a subtitle only used in the PDF.
 export const Preferences = [
   [
     "Veteran with Certificate of Preference (V-COP)",
@@ -57,12 +60,18 @@ export const Preferences = [
     "generalLottery",
     "General List",
 		UnitsRemaining,
-  ]
+  ],
+  [
+    "Unfiltered",
+    "Unfiltered Rank",
+		"Ticket #",
+  ],
 ].reduce((result,	[name, id, subtitle],	index) => {
 	const isVeteran = id.startsWith("V-");
 	const relatedPrefID = isVeteran ? id.slice(2) : "";
 	const pref = { id, subtitle, index, isVeteran, relatedPrefID };
 
+		// make the pref accessible by both name and ID
 	result[name] = result[id] = pref;
 
 	return result;

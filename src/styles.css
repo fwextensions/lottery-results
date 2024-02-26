@@ -107,13 +107,21 @@ header > blockquote {
 	align-items: self-end;
 }
 
-.row {
-	max-width: max-content;
-	margin: 0 auto;
-	gap: 1rem;
-	flex-direction: row;
-	justify-content: space-between;
-	display: flex;
+section {
+	margin: 2rem auto 0 auto;
+}
+
+table {
+		/* ensure the columns widths are even */
+	table-layout: fixed;
+	width: 100%;
+}
+
+td, th {
+	text-align: left;
+	vertical-align: top;
+		/* this actually functions like a min-width */
+	width: 11ch;
 }
 
 .row > div {
