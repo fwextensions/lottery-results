@@ -47,7 +47,7 @@ function getRowAsObject(
 }
 
 export function getApplicantsAndPrefs(
-	workbook)
+	workbook: XLSX.WorkBook)
 {
 	const ws = workbook.Sheets[workbook.SheetNames[0]];
 	const [header, ...rows] = XLSX.utils.sheet_to_json(ws, { header: 1 });

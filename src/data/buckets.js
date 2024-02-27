@@ -2,20 +2,21 @@ import { Bucket } from "./Bucket.js";
 
 export default new Bucket("/", [
 	new Bucket("COP", ["COP"], [
-		new Bucket("V_COP", ["VET"]),
+		new Bucket("V-COP", ["VET"]),
 		new Bucket("COP"),
 	]),
 	new Bucket("DTHP", ["DTHP"], [
-		new Bucket("V_DTHP", ["VET"]),
+		new Bucket("V-DTHP", ["VET"]),
 		new Bucket("DTHP"),
 	]),
 	new Bucket("NRHP", ["NRHP"], [
-		new Bucket("V_NRHP", ["VET"]),
+		new Bucket("V-NRHP", ["VET"]),
 		new Bucket("NRHP"),
 	]),
-	new Bucket("L_W", ["L_W"], [
-		new Bucket("V_L_W", ["VET"]),
-		new Bucket("L_W"),
+	new Bucket("LW", ["LW"], [
+		new Bucket("V-LW", ["VET"]),
+		new Bucket("LW"),
 	]),
-	new Bucket("GENERAL_POOL"),
+		// we want to include only applicants that have no preferences in this bucket
+	new Bucket("GENERAL_POOL", [({ prefs }) => Object.values(prefs).every((value) => !value)]),
 ]);

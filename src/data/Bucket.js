@@ -20,7 +20,17 @@ export class Bucket {
 	isAllowed(
 		applicant)
 	{
-		return !this.requirements.length || this.requirements.some((req) => applicant.prefs[req]);
+		if (!this.requirements.length) {
+			return true;
+		}
+
+		return this.requirements.some((req) => {
+			if (typeof req === "function") {
+				return req(applicant);
+			} else {
+				return applicant.prefs[req];
+			}
+		});
 	}
 
 	addApplicant(

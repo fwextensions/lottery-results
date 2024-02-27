@@ -1,5 +1,5 @@
 import * as XLSX from "xlsx";
-import { getApplicantsAndPrefs, getNoPref, getOrderByPref, getRawOrder, getWorkbookFromApplicants } from "./data/index.js";
+import { getApplicantsAndPrefs, getNoPref, getOrderByPref, getRawOrder, getWorkbookFromApplicants } from "./data/index.ts";
 import rootBucket from "./data/buckets.js";
 
 const Headers = [
