@@ -53,7 +53,7 @@ export function getApplicantsAndPrefs(
 	const [header, ...rows] = XLSX.utils.sheet_to_json(ws, { header: 1 });
 	const cols = getCols(InputColumns, header);
 	const rowObjects = rows.map((row) => getRowAsObject(row, cols));
-	const applicantsByName = {};
+	const applicantsByNumber = {};
 	const foundPrefs = new Set();
 
 		// make sure the rows are sorted ascending by lottery rank, which may not always be the case in the exported file
@@ -61,8 +61,8 @@ export function getApplicantsAndPrefs(
 
 	for (const row of rowObjects) {
 		const { Name, Rank, LotteryNum, PrefName, HasPref } = row;
-		const applicant = applicantsByName[Name]
-			|| (applicantsByName[Name] = { Name, Rank, LotteryNum, prefs: {} });
+		const applicant = applicantsByNumber[LotteryNum]
+			|| (applicantsByNumber[LotteryNum] = { Name, Rank, LotteryNum, prefs: {} });
 		const prefID = Preferences[PrefName].id;
 
 		applicant.prefs[prefID] = HasPref;
@@ -87,7 +87,7 @@ export function getApplicantsAndPrefs(
 		// lottery should have that category, so add it.
 	prefIDsInOrder.push("General List");
 
-	return [Object.values(applicantsByName), prefIDsInOrder];
+	return [Object.values(applicantsByNumber), prefIDsInOrder];
 }
 
 export function getWorkbookFromApplicants(

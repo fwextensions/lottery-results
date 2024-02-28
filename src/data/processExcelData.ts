@@ -1,7 +1,6 @@
 import {
 	getApplicantsAndPrefs, getNoPref, getOrderByPref,
 	getRawOrder,
-	getWorkbookFromApplicants
 } from "@/data/index";
 import rootBucket from "@/data/buckets";
 import * as XLSX from "xlsx";

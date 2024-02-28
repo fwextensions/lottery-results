@@ -92,7 +92,7 @@ export default function App()
 							checked={combineGroups}
 							onChange={(event) => setCombineGroups(event.target.checked)}
 						/>
-						Combine groups
+						Show Veterans at the top of combined lists
 					</label>
 				</header>
 				<LotteryManager

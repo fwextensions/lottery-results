@@ -235,8 +235,17 @@ kbd + kbd {
 		margin: .5in .25in;
 	}
 
+	:root {
+		font-size: 12px;
+	}
+
 	header.toolbar {
 		display: none;
+	}
+
+	main > article {
+			/* remove top padding when printing since there's already a page margin */
+		padding: 0 2rem 5rem 2rem;
 	}
 
 	.row {
