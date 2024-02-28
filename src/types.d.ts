@@ -33,6 +33,5 @@ type LotteryBucket = {
 type LotteryResponse = {
 	lotteryBuckets: LotteryBucket[];
 	lotteryDate: string;
-	lotteryResultsURL: string;
 	lotteryStatus: string;
 }

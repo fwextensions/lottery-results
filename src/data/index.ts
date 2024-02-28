@@ -47,13 +47,13 @@ function getRowAsObject(
 }
 
 export function getApplicantsAndPrefs(
-	workbook)
+	workbook: XLSX.WorkBook)
 {
 	const ws = workbook.Sheets[workbook.SheetNames[0]];
 	const [header, ...rows] = XLSX.utils.sheet_to_json(ws, { header: 1 });
 	const cols = getCols(InputColumns, header);
 	const rowObjects = rows.map((row) => getRowAsObject(row, cols));
-	const applicantsByName = {};
+	const applicantsByNumber = {};
 	const foundPrefs = new Set();
 
 		// make sure the rows are sorted ascending by lottery rank, which may not always be the case in the exported file
@@ -61,8 +61,8 @@ export function getApplicantsAndPrefs(
 
 	for (const row of rowObjects) {
 		const { Name, Rank, LotteryNum, PrefName, HasPref } = row;
-		const applicant = applicantsByName[Name]
-			|| (applicantsByName[Name] = { Name, Rank, LotteryNum, prefs: {} });
+		const applicant = applicantsByNumber[LotteryNum]
+			|| (applicantsByNumber[LotteryNum] = { Name, Rank, LotteryNum, prefs: {} });
 		const prefID = Preferences[PrefName].id;
 
 		applicant.prefs[prefID] = HasPref;
@@ -76,13 +76,18 @@ export function getApplicantsAndPrefs(
 		// put the prefs in the correct order, since foundPrefs will have them in whatever order they were found in.  then
 		// call flat() to remove any holes in the array, which we'll have if the spreadsheet doesn't include the full
 		// complement of available prefs.
-	const prefsInOrder = [...foundPrefs].reduce((result, pref) => {
-		result[IndexByPrefID[pref]] = pref;
+	const prefIDsInOrder = [...foundPrefs].reduce((result, id) => {
+		result[IndexByPrefID[id]] = id;
 
 		return result;
 	}, []).flat();
 
-	return [Object.values(applicantsByName), prefsInOrder];
+		// the "General List" contains everyone who has zero prefs, and isn't its
+		// own preference, so it won't have been added to prefIDsInOrder.  but every
+		// lottery should have that category, so add it.
+	prefIDsInOrder.push("General List");
+
+	return [Object.values(applicantsByNumber), prefIDsInOrder];
 }
 
 export function getWorkbookFromApplicants(

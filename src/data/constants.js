@@ -5,8 +5,8 @@ export const Preferences = [
 	["Displaced Tenant Housing Preference (DTHP)", "DTHP"],
 	["Veteran with Neighborhood Resident Housing Preference (V-NRHP)", "V-NRHP"],
 	["Neighborhood Resident Housing Preference (NRHP)", "NRHP"],
-	["Veteran with Live or Work in San Francisco Preference (V-L_W)", "V-L_W"],
-	["Live or Work in San Francisco Preference", "L_W"],
+	["Veteran with Live or Work in San Francisco Preference (V-L_W)", "V-LW"],
+	["Live or Work in San Francisco Preference", "LW"],
 ].reduce((result,	[name, id],	index) => ({
 	...result,
 	[name]: { id, index }

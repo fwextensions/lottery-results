@@ -1,4 +1,5 @@
 :root {
+	font-size: 14px;
 	--count-width: 2rem;
 }
 
@@ -8,34 +9,34 @@
 
 body {
 	font-family: Verdana, sans-serif;
-	font-size: 14px;
 	padding: 0;
 	margin: 0;
 }
 
 #drop-target {
-	width: 100vw;
+	background: white;
+	width: 100%;
 	height: 100vh;
+	top: 0;
+	left: 0;
 	margin: 0;
 	padding: 1rem;
+	position: fixed;
+	z-index: 1000;
 }
 
 #drop-target div {
+	width: 100%;
+	height: 100%;
 	text-align: center;
 	font-weight: bold;
 	color: #666;
-	width: 100%;
-	height: 100%;
-	border: 3px solid silver;
+	background-color: aliceblue;
+	border: 3px solid darkblue;
 	pointer-events: none;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-}
-
-#drop-target.hover div {
-	border-color: darkblue;
-	background-color: aliceblue;
 }
 
 #results {
@@ -43,9 +44,15 @@ body {
 	display: none;
 }
 
+main {
+		/* make the main element stretch to the full height of the viewport so that
+			it can accept a dropped file even when no listing is selected  */
+	min-height: 100vh;
+}
+
 header.toolbar {
 	background: #eee;
-	padding: .5rem;
+	padding: .75rem;
 	align-items: center;
 	gap: 1.5rem;
 	display: flex;
@@ -55,7 +62,7 @@ header.toolbar {
 }
 
 main > article {
-	padding: 4rem 2rem;
+	padding: 5rem 2rem;
 }
 
 article > header {
@@ -81,16 +88,7 @@ header > h3 {
 
 header .seal {
 	width: 6rem;
-	margin: 2rem 0;
-}
-
-header aside {
-	color: #bbb;
-	font-style: italic;
-	font-size: smaller;
-	margin-top: -2rem;
-	right: 4rem;
-	position: absolute;
+	margin: 2.5rem 0;
 }
 
 #address {
@@ -98,13 +96,19 @@ header aside {
 }
 
 header > blockquote {
-	color: #666;
-	font-style: italic;
-	margin: 3rem;
+	width: 40%;
+	margin: 2rem auto;
 }
 
-#list-headers {
-	align-items: self-end;
+header > blockquote > h4, header > blockquote > h5 {
+	font-weight: normal;
+	font-size: .75rem;
+	line-height: 1;
+	margin: 0;
+}
+
+header > blockquote > h5 {
+	margin-top: .75rem;
 }
 
 section {
@@ -146,7 +150,7 @@ td, th {
 }
 
 .row > :nth-of-type(5) {
-	color: royalblue;
+	color: darkblue;
 }
 
 .row > :nth-of-type(6) {
@@ -177,7 +181,7 @@ td, th {
 }
 
 .row h5 {
-	font-size: .6rem;
+	font-size: .75rem;
 	font-weight: normal;
 	height: 2.5em;
 }
@@ -196,7 +200,7 @@ td, th {
 
 .row ol > li::before {
 	content: counter(lottery) ".";
-	color: #aaa;
+	color: #999;
 	font-weight: bold;
 	font-size: .65em;
 	text-align: right;
@@ -207,11 +211,11 @@ td, th {
 
 kbd {
 	font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
-	font-size: 13px;
+	font-size: .75rem;
 	font-weight: bold;
 	font-style: normal;
 	padding: 3px 5px;
-	line-height: 10px;
+	line-height: 1;
 	vertical-align: middle;
 	color: #444d56;
 	background-color: #fafbfc;
@@ -231,8 +235,17 @@ kbd + kbd {
 		margin: .5in .25in;
 	}
 
+	:root {
+		font-size: 12px;
+	}
+
 	header.toolbar {
 		display: none;
+	}
+
+	main > article {
+			/* remove top padding when printing since there's already a page margin */
+		padding: 0 2rem 5rem 2rem;
 	}
 
 	.row {
