@@ -26,9 +26,9 @@ export default function App()
 	useEffect(() => {
 		if (listing?.Id !== menuListing?.Id) {
 				// if we get here, it's probably because we were loaded from a URL that
-				// contained a listing and the menu defaults to nothing being selected
+				// contained a listing and the menu defaults to nothing being selected,
+				// so update the menu with the listing from the URL
 			setMenuListing(listing);
-			setSpreadsheetData(undefined)
 		}
 	}, [listing]);
 

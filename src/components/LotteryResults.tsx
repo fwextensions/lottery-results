@@ -26,7 +26,8 @@ export default function LotteryResults({
 				</h2>
 				<h3>
 					{address}
-					<br />
+				</h3>
+				<h3>
 					Lottery date: {date}
 				</h3>
 				<blockquote>
