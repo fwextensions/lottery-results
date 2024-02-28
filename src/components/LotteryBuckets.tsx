@@ -25,16 +25,16 @@ function Column({
 }
 
 type LotteryBucketsProps = {
-	buckets: LotteryBucket[]
+	buckets?: LotteryBucket[]
 }
 
 export default function LotteryBuckets({
-	buckets }: LotteryBucketsProps)
+	buckets = [] }: LotteryBucketsProps)
 {
 	const applicants = new Map();
 
 		// combine all the buckets into one list with every applicant appearing once
-	buckets.map(({ preferenceResults }) => preferenceResults).flat().forEach((applicant) => {
+	buckets?.map(({ preferenceResults }) => preferenceResults).flat().forEach((applicant) => {
 		applicants.set(applicant.lotteryNumber, applicant);
 	});
 
@@ -51,21 +51,21 @@ export default function LotteryBuckets({
 	const resultCells: ReactElement[] = [];
 
 	combinedBuckets.forEach((bucket) => {
-		const { id, subtitle } = Preferences[bucket.preferenceName];
+		const { id, shortName, subtitle } = Preferences[bucket.preferenceName];
 
 		titleCells.push(
-			<th>
-				<h4 key={id}>{id}</h4>
+			<th key={id}>
+				<h4>{shortName}</h4>
 			</th>
 		);
 		subtitleCells.push(
-			<td>
-				<h5 key={id}>{subtitle}</h5>
+			<td key={id}>
+				<h5>{subtitle}</h5>
 			</td>
 		);
 		resultCells.push(
-			<td>
-				<Column key={id} bucket={bucket} />
+			<td key={id}>
+				<Column bucket={bucket} />
 			</td>
 		);
 	});

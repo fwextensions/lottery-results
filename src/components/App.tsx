@@ -3,11 +3,11 @@ import Head from "next/head";
 import { useNavigate, useParams } from "react-router-dom";
 import { SingleValue } from "react-select";
 import ListingPicker from "@/components/ListingPicker";
-import LotteryResults from "@/components/LotteryResults";
-import { useListing } from "@/hooks/queries";
+import LotteryManager from "@/components/LotteryManager";
 import DropTarget from "@/components/DropTarget";
+import { useListing } from "@/hooks/queries";
+
 import type { DragEvent } from "react";
-import { processExcelData } from "@/data/processExcelData";
 
 export default function App()
 {
@@ -17,6 +17,7 @@ export default function App()
 	const [menuListing, setMenuListing] = useState<Listing | undefined>();
 	const [combineGroups, setCombineGroups] = useState(true);
 	const [showDropTarget, setShowDropTarget] = useState(false);
+	const [spreadsheetData, setSpreadsheetData] = useState<ArrayBuffer | undefined>();
 	const { listingID } = useParams();
 	const navigate = useNavigate();
 	const { data: listing } = useListing(listingID, menuListing);
@@ -27,11 +28,14 @@ export default function App()
 				// if we get here, it's probably because we were loaded from a URL that
 				// contained a listing and the menu defaults to nothing being selected
 			setMenuListing(listing);
+			setSpreadsheetData(undefined)
 		}
 	}, [listing]);
 
 	const handleMenuChange = (changedListing: SingleValue<Listing>) => {
+			// when the menu changes, we also want to clear any existing spreadsheet data
 		setMenuListing(changedListing ?? undefined);
+		setSpreadsheetData(undefined)
 
 		if (changedListing) {
 				// set the URL to the new listing's ID so the user can navigate back and
@@ -58,7 +62,10 @@ export default function App()
 			const [file] = event.dataTransfer.files;
 			const data = await file.arrayBuffer();
 
-			processExcelData(data);
+				// set the URL back to root to clear any existing listing ID, since we're
+				// replacing the results with the dropped file
+			navigate("/");
+			setSpreadsheetData(data);
 		}
 	};
 
@@ -88,8 +95,9 @@ export default function App()
 						Combine groups
 					</label>
 				</header>
-				<LotteryResults
+				<LotteryManager
 					listing={listing}
+					spreadsheetData={spreadsheetData}
 					combineGroups={combineGroups}
 				/>
 			</main>

@@ -17,6 +17,15 @@ export class Bucket {
 		this.applicants = [];
 	}
 
+	reset()
+	{
+		this.applicants = [];
+
+		for (const child of this.children) {
+			child.reset();
+		}
+	}
+
 	isAllowed(
 		applicant)
 	{

@@ -76,13 +76,18 @@ export function getApplicantsAndPrefs(
 		// put the prefs in the correct order, since foundPrefs will have them in whatever order they were found in.  then
 		// call flat() to remove any holes in the array, which we'll have if the spreadsheet doesn't include the full
 		// complement of available prefs.
-	const prefsInOrder = [...foundPrefs].reduce((result, pref) => {
-		result[IndexByPrefID[pref]] = pref;
+	const prefIDsInOrder = [...foundPrefs].reduce((result, id) => {
+		result[IndexByPrefID[id]] = id;
 
 		return result;
 	}, []).flat();
 
-	return [Object.values(applicantsByName), prefsInOrder];
+		// the "General List" contains everyone who has zero prefs, and isn't its
+		// own preference, so it won't have been added to prefIDsInOrder.  but every
+		// lottery should have that category, so add it.
+	prefIDsInOrder.push("General List");
+
+	return [Object.values(applicantsByName), prefIDsInOrder];
 }
 
 export function getWorkbookFromApplicants(

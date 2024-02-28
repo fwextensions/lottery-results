@@ -18,5 +18,5 @@ export default new Bucket("/", [
 		new Bucket("LW"),
 	]),
 		// we want to include only applicants that have no preferences in this bucket
-	new Bucket("GENERAL_POOL", [({ prefs }) => Object.values(prefs).every((value) => !value)]),
+	new Bucket("General List", [({ prefs }) => Object.values(prefs).every((value) => !value)]),
 ]);

@@ -44,6 +44,12 @@ body {
 	display: none;
 }
 
+main {
+		/* make the main element stretch to the full height of the viewport so that
+			it can accept a dropped file even when no listing is selected  */
+	min-height: 100vh;
+}
+
 header.toolbar {
 	background: #eee;
 	padding: .75rem;
