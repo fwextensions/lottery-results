@@ -3,6 +3,8 @@ import { processLotteryBuckets } from "@/data/processLotteryBuckets";
 import LotteryBuckets from "@/components/LotteryBuckets";
 import Message from "@/components/Message";
 
+const LongDate = new Intl.DateTimeFormat("en-US", { dateStyle: "long" });
+
 type LotteryResultsProps = {
 	listing?: Listing;
 	combineGroups?: boolean;
@@ -36,7 +38,7 @@ export default function LotteryResults({
 		// the date on the lottery_ranking response is the date of the lottery, while
 		// Lottery_Results_Date is the date when they become official and are posted
 		// as a PDF.  we want to include the former here.
-	const lotteryDate = new Date(data.lotteryDate).toLocaleDateString();
+	const lotteryDateString = LongDate.format(new Date(data.lotteryDate));
 
 	return (
 		<article>
@@ -52,18 +54,13 @@ export default function LotteryResults({
 				<h3>
 					{Building_Street_Address}
 					<br />
-					{lotteryDate}
+					Lottery date: {lotteryDateString}
 				</h3>
 				<blockquote>
-					Press <kbd>ctrl</kbd><kbd>F</kbd> and enter your lottery ticket
-					number to find your rank
+					<h4>Press <kbd>ctrl</kbd><kbd>F</kbd> and enter your lottery ticket
+						number to find your rank</h4>
+					<h5>* indicates a Veteran applicant</h5>
 				</blockquote>
-				<h4>
-					Preference Lists
-				</h4>
-				<aside>
-					* = Veteran
-				</aside>
 			</header>
 			<LotteryBuckets buckets={buckets} />
 		</article>

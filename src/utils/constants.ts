@@ -53,7 +53,7 @@ export const Preferences = [
   ],
   [
     "Live or Work in San Francisco Preference",
-    "LW",
+    "Live/Work",
 		Units100PctRemaining,
   ],
   [
