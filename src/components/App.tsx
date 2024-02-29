@@ -81,10 +81,12 @@ export default function App()
 				onDrop={handleDrop}
 			>
 				<header className="toolbar">
+{/*
 					<ListingPicker
 						value={listing}
 						onChange={handleMenuChange}
 					/>
+*/}
 					<label htmlFor="combine-groups">
 						<input
 							id="combine-groups"
