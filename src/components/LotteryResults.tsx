@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+import EasyEdit from "react-easy-edit";
 import LotteryBuckets from "@/components/LotteryBuckets";
 
 type LotteryResultsProps = {
@@ -13,6 +15,10 @@ export default function LotteryResults({
 	date,
 	buckets }: LotteryResultsProps)
 {
+	const [currentName, setCurrentName] = useState(name);
+	const [currentAddress, setCurrentAddress] = useState(address);
+	const [currentDate, setCurrentDate] = useState(date);
+
 	return (
 		<article>
 			<header>
@@ -22,13 +28,27 @@ export default function LotteryResults({
 					<img src="https://www.sf.gov/themes/custom/sfgovpl/logo.svg" alt="SF" className="seal" />
 				</h1>
 				<h2>
-					{name}
+					<EasyEdit
+						type="text"
+						value={name}
+						onSave={setCurrentName}
+					/>
 				</h2>
 				<h3>
-					{address}
+					<EasyEdit
+						type="text"
+						value={address}
+						onSave={setCurrentAddress}
+					/>
 				</h3>
 				<h3>
-					Lottery date: {date}
+					Lottery date:
+					{" "}
+					<EasyEdit
+						type="text"
+						value={date}
+						onSave={setCurrentDate}
+					/>
 				</h3>
 				<blockquote>
 					<h4>Press <kbd>ctrl</kbd><kbd>F</kbd> and enter your lottery ticket

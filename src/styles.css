@@ -4,13 +4,17 @@
 }
 
 * {
+	font-family: Verdana, sans-serif;
 	box-sizing: border-box;
 }
 
 body {
-	font-family: Verdana, sans-serif;
 	padding: 0;
 	margin: 0;
+}
+
+input {
+	outline-color: darkblue;
 }
 
 #drop-target {
@@ -76,13 +80,37 @@ header > h1 {
 
 header > h2 {
 	font-size: 1.25rem;
-	margin: 0 0 .75rem 0;
+	margin: 0 auto .75rem auto;
+	width: fit-content;
 }
 
 header > h3 {
 	font-size: 1rem;
-	margin: 0 0 .25rem 0;
+	margin: 0 auto .25rem auto;
 	font-weight: normal;
+	width: fit-content;
+}
+
+header .easy-edit-wrapper {
+	display: inline-block;
+}
+
+header .easy-edit-hover-on {
+	font-style: normal;
+	color: darkblue;
+	background: #eef;
+}
+
+.easy-edit-component-wrapper input {
+	padding: .25rem;
+	border: 1px solid #aaa
+}
+
+.easy-edit-button-wrapper {
+	margin-left: .35rem;
+	gap: .25rem;
+	align-items: center;
+	display: inline-flex;
 }
 
 header .seal {
