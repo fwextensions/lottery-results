@@ -1,5 +1,7 @@
 const apiURL = process.env.DAHLIA_API_BASE_URL;
 
+console.warn("=== ignoreBuildErrors is TRUE ===");
+
 /** @type {import("next").NextConfig} */
 const nextConfig = {
 	typescript: {

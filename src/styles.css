@@ -65,6 +65,10 @@ header.toolbar {
 	z-index: 100;
 }
 
+label > input {
+	margin: 0 .5rem 0 0;
+}
+
 main > article {
 	padding: 5rem 2rem;
 }

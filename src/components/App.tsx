@@ -48,6 +48,9 @@ export default function App()
 			// don't show the drop target if the user is not dragging a file
 		if (event.dataTransfer.types.includes("Files")) {
 			setShowDropTarget(true);
+
+				// we have to prevent the default dragEnter behavior so the drop works
+			event.preventDefault();
 		}
 	};
 
@@ -78,10 +81,10 @@ export default function App()
 			}
 			<main
 				onDragEnter={handleDragEnter}
-				onDrop={handleDrop}
 			>
 				<header className="toolbar">
 {/*
+// TODO: put this back when we have an API to get the correct lottery results
 					<ListingPicker
 						value={listing}
 						onChange={handleMenuChange}

@@ -1,7 +1,6 @@
 import type { DragEvent } from "react";
 
 type DropTargetProps = {
-	visible?: boolean;
 	onDrop: (event: DragEvent<HTMLDivElement>) => void;
 	onLeave: () => void;
 };
@@ -13,11 +12,13 @@ export default function DropTarget({
 	return (
 		<div
 			id="drop-target"
-			onDragLeave={onLeave}
+				// we have to prevent the default dragOver behavior for the drop to work
+			onDragOver={(event) => event.preventDefault()}
 			onDrop={onDrop}
+			onDragLeave={onLeave}
 		>
 			<div>
-				Drag and drop a results file here
+				Drag and drop a .xlsx results spreadsheet here
 			</div>
 		</div>
 	);

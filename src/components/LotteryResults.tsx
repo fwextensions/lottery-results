@@ -53,7 +53,7 @@ export default function LotteryResults({
 				<blockquote>
 					<h4>Press <kbd>ctrl</kbd><kbd>F</kbd> and enter your lottery ticket
 						number to find your rank</h4>
-					<h5>* indicates a Veteran applicant</h5>
+					<h5>* indicates a US Military Veteran</h5>
 				</blockquote>
 			</header>
 			<LotteryBuckets buckets={buckets} />
