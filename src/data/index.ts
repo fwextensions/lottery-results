@@ -1,5 +1,5 @@
 import * as XLSX from "xlsx";
-import { IndexByPrefID, Preferences } from "./constants.js";
+import { getPreferenceByName, IndexByPrefID } from "./constants.js";
 
 const OutputHeaders = [
 	"Lottery Rank",
@@ -63,13 +63,18 @@ export function getApplicantsAndPrefs(
 		const { Name, Rank, LotteryNum, PrefName, HasPref } = row;
 		const applicant = applicantsByNumber[LotteryNum]
 			|| (applicantsByNumber[LotteryNum] = { Name, Rank, LotteryNum, prefs: {} });
-		const prefID = Preferences[PrefName].id;
+			// we can't just index into Preferences with the name because the names can vary by listing
+		const prefID = getPreferenceByName(PrefName)?.id;
 
-		applicant.prefs[prefID] = HasPref;
-		foundPrefs.add(prefID);
+		if (prefID) {
+			applicant.prefs[prefID] = HasPref;
+			foundPrefs.add(prefID);
 
-		if (prefID.startsWith("V-")) {
-			applicant.prefs[VetPref] = HasPref;
+			if (prefID.startsWith("V-")) {
+				applicant.prefs[VetPref] = HasPref;
+			}
+		} else {
+			console.error(`Unknown preference: ${PrefName}`);
 		}
 	}
 

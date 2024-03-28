@@ -14,3 +14,12 @@ export const Preferences = [
 
 export const PreferenceIDs = Object.values(Preferences).map(({ id }) => id);
 export const IndexByPrefID = Object.fromEntries(PreferenceIDs.map((id, i) => [id, i]));
+
+export function getPreferenceByName(
+	prefName)
+{
+		// some preference names may not include the shortcodes in parens above
+	const result = Object.entries(Preferences).find(([key]) => key.startsWith(prefName));
+
+	return result ? result[1] : null;
+}
