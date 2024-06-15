@@ -70,7 +70,10 @@ export function getApplicantsAndPrefs(
 			applicant.prefs[prefID] = HasPref;
 			foundPrefs.add(prefID);
 
-			if (prefID.startsWith("V-")) {
+				// once we've determined the applicant is a Veteran based on one pref,
+				// we don't want to change the value of the synthetic "VET" pref,
+				// EVEN IF a subsequent V-* pref is false.
+			if (prefID.startsWith("V-") && !applicant.prefs[VetPref]) {
 				applicant.prefs[VetPref] = HasPref;
 			}
 		} else {
