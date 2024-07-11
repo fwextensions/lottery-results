@@ -1,6 +1,7 @@
-import { Preferences } from "@/utils/constants";
+import { Preferences, Units100Pct, Units100PctRemaining, Units20Pct, Units40Pct, UnitsRemaining } from "@/utils/constants";
 import { by } from "@/utils";
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
+import EasyEdit from "react-easy-edit";
 
 const ColumnMaxWidth = 20; // in ch units
 
@@ -26,6 +27,78 @@ function Column({
 
 type LotteryBucketsProps = {
 	buckets?: LotteryBucket[]
+}
+
+const EditableSubtitle = ({ type }: { type: string }) => {
+  const [subtitleCOP, setSubtitleCOP] = useState(Units100Pct)
+  const [subtitleDTHP, setSubtitleDTHP] = useState(Units20Pct)
+  const [subtitleNRHP, setSubtitleNRHP] = useState(Units40Pct)
+  const [subtitleLW, setSubtitleLW] = useState(Units100PctRemaining)
+  const [subtitleGeneral, setSubtitleGeneral] = useState(UnitsRemaining)
+  const [subtitleUnfiltered, setSubtitleUnfiltered] = useState("Ticket #")
+
+  switch (type) {
+    case "COP":
+        return (
+          <h5>
+            <EasyEdit
+              type="text"
+              value={subtitleCOP}
+              onSave={setSubtitleCOP}
+            />
+          </h5>
+        )
+    case "DTHP":
+      return (
+        <h5>
+          <EasyEdit
+            type="text"
+            value={subtitleDTHP}
+            onSave={setSubtitleDTHP}
+          />
+        </h5>
+      )
+    case "NRHP":
+      return (
+        <h5>
+          <EasyEdit
+            type="text"
+            value={subtitleNRHP}
+            onSave={setSubtitleNRHP}
+          />
+        </h5>
+      )
+    case "LW":
+      return (
+        <h5>
+          <EasyEdit
+            type="text"
+            value={subtitleLW}
+            onSave={setSubtitleLW}
+          />
+        </h5>
+      )
+    case "General List":
+      return (
+        <h5>
+          <EasyEdit
+            type="text"
+            value={subtitleGeneral}
+            onSave={setSubtitleGeneral}
+          />
+        </h5>
+      )
+    case "Unfiltered Rank":
+      return (
+        <h5>
+          <EasyEdit
+            type="text"
+            value={subtitleUnfiltered}
+            onSave={setSubtitleUnfiltered}
+          />
+        </h5>
+      )
+  }
 }
 
 export default function LotteryBuckets({
@@ -60,7 +133,7 @@ export default function LotteryBuckets({
 		);
 		subtitleCells.push(
 			<td key={id}>
-				<h5>{subtitle}</h5>
+        <EditableSubtitle type={id} />
 			</td>
 		);
 		resultCells.push(
