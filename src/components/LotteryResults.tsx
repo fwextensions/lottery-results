@@ -17,7 +17,7 @@ export default function LotteryResults({
 {
 	const [currentName, setCurrentName] = useState(name);
 	const [currentAddress, setCurrentAddress] = useState(address);
-	const [currentDate, setCurrentDate] = useState(date);
+  const [currentDate, setCurrentDate] = useState(date);
 
 	return (
 		<article>
@@ -43,7 +43,6 @@ export default function LotteryResults({
 				</h3>
 				<h3>
 					Lottery date:
-					{" "}
 					<EasyEdit
 						type="text"
 						value={date}

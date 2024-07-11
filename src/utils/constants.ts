@@ -8,11 +8,11 @@ type PreferenceInfo = {
 	relatedPrefID: string;
 };
 
-const Units100Pct = "Up to 100% of units";
-const Units100PctRemaining = "Up to 100% of remaining units";
-const Units40Pct = "Up to 40% of units";
-const Units20Pct = "Up to 20% of units";
-const UnitsRemaining = "Remaining units";
+export const Units100Pct = "Up to 100% of units";
+export const Units100PctRemaining = "Up to 100% of remaining units";
+export const Units40Pct = "Up to 40% of units";
+export const Units20Pct = "Up to 20% of units";
+export const UnitsRemaining = "Remaining units";
 
 	// the first item in each array is the preference name supplied by Salesforce.
 	// the second is a shorter ID we want to use to refer to it in our code and in
