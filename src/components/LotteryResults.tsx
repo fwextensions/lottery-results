@@ -25,7 +25,7 @@ export default function LotteryResults({
 				<h1>
 					Mayor's Office of Housing and Community Development
 					<br />
-					<img src="https://www.sf.gov/themes/custom/sfgovpl/logo.svg" alt="SF" className="seal" />
+					<img src="https://www.sf.gov/static/CCSF-seal-vector.svg" alt="SF" className="seal" />
 				</h1>
 				<h2>
 					<EasyEdit

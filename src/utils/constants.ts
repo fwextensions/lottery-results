@@ -18,64 +18,67 @@ const UnitsRemaining = "Remaining units";
 	// the second is a shorter ID we want to use to refer to it in our code and in
 	// the results PDF.  the third item is a subtitle only used in the PDF.
 export const Preferences = [
-  {
-    name: "Veteran with Certificate of Preference (V-COP)",
-    id: "V-COP",
-    subtitle: Units100Pct
-  },
-  {
-    name: "Certificate of Preference (COP)",
-    id: "COP",
-    subtitle: Units100Pct
-  },
-  {
-    name: "Veteran with Displaced Tenant Housing Preference (V-DTHP)",
-    id: "V-DTHP",
-    subtitle: Units20Pct
-  },
-  {
-    name: "Displaced Tenant Housing Preference (DTHP)",
-    id: "DTHP",
-    subtitle: Units20Pct
-  },
-  {
-    name: "Veteran with Neighborhood Resident Housing Preference (V-NRHP)",
-    id: "V-NRHP",
-    subtitle: Units40Pct
-  },
-  {
-    name: "Neighborhood Resident Housing Preference (NRHP)",
-    id: "NRHP",
-    subtitle: Units40Pct
-  },
-  {
-    name: "Veteran with Live or Work in San Francisco Preference (V-L_W)",
-    id: "V-LW",
-    subtitle: Units100PctRemaining
-  },
-  {
-    name: "Live or Work in San Francisco Preference",
-    id: "LW",
-    shortName: "Live/Work",
-    subtitle: Units100PctRemaining
-  },
-  {
-    name: "generalLottery",
-    id: "General List",
-    subtitle: UnitsRemaining
-  },
-  {
-    name: "Unfiltered",
-    id: "Unfiltered Rank",
-    subtitle: "Ticket #"
-  }
+	{
+		name: "Veteran with Certificate of Preference (V-COP)",
+		id: "V-COP",
+		subtitle: Units100Pct
+	},
+	{
+		name: "Certificate of Preference (COP)",
+		id: "COP",
+		subtitle: Units100Pct
+	},
+	{
+		name: "Veteran with Displaced Tenant Housing Preference (V-DTHP)",
+		id: "V-DTHP",
+		subtitle: Units20Pct
+	},
+	{
+		name: "Displaced Tenant Housing Preference (DTHP)",
+		id: "DTHP",
+		subtitle: Units20Pct
+	},
+	{
+		name: "Veteran with Neighborhood Resident Housing Preference (V-NRHP)",
+		id: "V-NRHP",
+		subtitle: Units40Pct
+	},
+	{
+		name: "Neighborhood Resident Housing Preference (NRHP)",
+		id: "NRHP",
+		subtitle: Units40Pct
+	},
+	{
+		name: "Veteran with Live or Work in San Francisco Preference (V-L_W)",
+		id: "V-LW",
+		subtitle: Units100PctRemaining
+	},
+	{
+		name: "Live or Work in San Francisco Preference",
+		id: "LW",
+		shortName: "Live/Work",
+		subtitle: Units100PctRemaining
+	},
+	{
+		name: "generalLottery",
+		id: "General List",
+		subtitle: UnitsRemaining
+	},
+	{
+		name: "Unfiltered",
+		id: "Unfiltered Rank",
+		subtitle: "Ticket #"
+	}
 ].reduce((result,	{ name, id, subtitle, shortName = id }, index) => {
 	const isVeteran = id.startsWith("V-");
 	const relatedPrefID = isVeteran ? id.slice(2) : "";
 	const pref = { id, name, subtitle, shortName, index, isVeteran, relatedPrefID };
+		// some pref names seem to not include the ID in the name, so remove it and
+		// link to the pref info with that name as well
+	const nameWithoutID = name.replace(/ \(.+$/, "");
 
 		// make the pref accessible by both name and ID
-	result[name] = result[id] = pref;
+	result[name] = result[nameWithoutID] = result[id] = pref;
 
 	return result;
 }, {} as Record<string, PreferenceInfo>);

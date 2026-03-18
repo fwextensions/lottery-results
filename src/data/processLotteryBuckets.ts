@@ -1,6 +1,6 @@
 import { Preferences } from "@/utils/constants";
 
-const isVeteranBucket = (bucket: LotteryBucket) => Preferences[bucket.preferenceName].isVeteran;
+const isVeteranBucket = (bucket: LotteryBucket) => Preferences[bucket.preferenceName]?.isVeteran ?? false;
 const isNotVeteranBucket = (bucket: LotteryBucket) => !isVeteranBucket(bucket);
 
 export function processLotteryBuckets(
@@ -38,7 +38,7 @@ export function processLotteryBuckets(
 	bucketsQueue.forEach((bucket, index) => {
 		const bucketInfo = Preferences[bucket.preferenceName];
 
-		if (bucketInfo.isVeteran) {
+		if (bucketInfo?.isVeteran) {
 			const veteranApplicants = bucket.preferenceResults;
 				// we assume the list is always ordered by the Veteran preference and then
 				// the related non-Veteran preference

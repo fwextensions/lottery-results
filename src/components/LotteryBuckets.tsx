@@ -51,7 +51,14 @@ export default function LotteryBuckets({
 	const resultCells: ReactElement[] = [];
 
 	combinedBuckets.forEach((bucket) => {
-		const { id, shortName, subtitle } = Preferences[bucket.preferenceName];
+		const preference = Preferences[bucket.preferenceName];
+
+		if (!preference) {
+			console.warn(`Unknown preference: ${bucket.preferenceName}`);
+			return;
+		}
+
+		const { id, shortName, subtitle } = preference;
 
 		titleCells.push(
 			<th key={id}>
